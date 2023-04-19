@@ -12,6 +12,7 @@ body {
     align-items: center;
     background: #264653;
     color: #e9c46a;
+    font-family: 'Chivo Mono', monospace;
 }
 
 div {
@@ -36,6 +37,7 @@ label {
 button {
     font-size: 1.5rem;
     color: #e9c46a;
+    font-family: 'Chivo Mono', monospace;
     background-color: transparent;
     margin: 1rem;
     padding: 1rem;
@@ -47,4 +49,19 @@ button {
 
 button:hover {
     transform: scale(1.1);
+}
+
+a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #e9c46a;
+    font-family: 'Chivo Mono', monospace;
+}
+
+a:not(:nth-child(4)) {
+    margin-right: 2rem;
+}
+
+a:hover {
+    color: #f4a261;
 }
