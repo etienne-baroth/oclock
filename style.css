@@ -1,0 +1,50 @@
+*, ::before, ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #264653;
+    color: #e9c46a;
+}
+
+div {
+    background-color: #2a9d8f;
+    margin-top: 2rem;
+    padding: 2rem;
+    border: none;
+    border-radius: 2rem;
+}
+
+p {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+label {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 1rem;
+}
+
+button {
+    font-size: 1.5rem;
+    color: #e9c46a;
+    background-color: transparent;
+    margin: 1rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
