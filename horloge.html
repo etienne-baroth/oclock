@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Horloge</title>
+  </head>
+  <body>
+    <div>
+      <p id="horloge">00:00:00</p>
+    </div>
+
+    <script>
+      function updateClock() {
+        let date = new Date();
+        let hours = date.getUTCHours() + 2;
+        let minutes = date.getUTCMinutes();
+        let seconds = date.getUTCSeconds();
+        let timeString =
+          ("0" + hours).slice(-2) +
+          ":" +
+          ("0" + minutes).slice(-2) +
+          ":" +
+          ("0" + seconds).slice(-2);
+        clock.innerHTML = timeString;
+      }
+
+      let clock = document.getElementById("horloge");
+      let interval = setInterval(updateClock, 1000);
+
+      updateClock();
+    </script>
+  </body>
+</html>

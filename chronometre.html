@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chrono</title>
+  </head>
+  <body>
+    <div>
+      <p id="timer">00:00:00</p>
+      <button class="button" id="start-stop">Débuter</button>
+      <button class="button" id="reset">Recommencer</button>
+      <button class="button" id="record">Tour</button>
+      <ul id="records"></ul>
+    </div>
+
+    <script>
+      let interval;
+      let startTime;
+      let elapsedTime = 0;
+      let timer = document.getElementById("timer");
+      let startStopButton = document.getElementById("start-stop");
+      let resetButton = document.getElementById("reset");
+      let recordButton = document.getElementById("record");
+      let recordsList = document.getElementById("records");
+
+      function convertTime(time) {
+        let hours = Math.floor(time / 3600);
+        let minutes = Math.floor((time % 3600) / 60);
+        let seconds = time % 60;
+        return (
+          ("0" + hours).slice(-2) +
+          ":" +
+          ("0" + minutes).slice(-2) +
+          ":" +
+          ("0" + seconds).slice(-2)
+        );
+      }
+
+      function updateTimer() {
+        let currentTime = new Date().getTime();
+        elapsedTime = Math.floor((currentTime - startTime) / 1000);
+        timer.innerHTML = convertTime(elapsedTime);
+      }
+
+      function startStopTimer() {
+        if (interval) {
+          clearInterval(interval);
+          interval = null;
+          startStopButton.innerHTML = "Débuter";
+        } else {
+          startTime = new Date().getTime() - elapsedTime * 1000;
+          interval = setInterval(updateTimer, 1000);
+          startStopButton.innerHTML = "Arrêter";
+        }
+      }
+
+      function resetTimer() {
+        clearInterval(interval);
+        interval = null;
+        elapsedTime = 0;
+        timer.innerHTML = convertTime(elapsedTime);
+        startStopButton.innerHTML = "Débuter";
+        recordsList.innerHTML = "";
+      }
+
+      function recordTime() {
+        let record = document.createElement("li");
+        record.innerHTML = convertTime(elapsedTime);
+        recordsList.appendChild(record);
+      }
+
+      startStopButton.addEventListener("click", startStopTimer);
+      resetButton.addEventListener("click", resetTimer);
+      recordButton.addEventListener("click", recordTime);
+    </script>
+  </body>
+</html>

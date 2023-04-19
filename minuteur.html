@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minuteur</title>
+  </head>
+  <body>
+    <div>
+      <p>
+        <label for="input-minutes">Minutes</label>
+        <input type="number" id="input-minutes" min="0" max="60" value="0" />
+        <label for="input-seconds">Secondes</label>
+        <input type="number" id="input-seconds" min="0" max="60" value="0" />
+        <button class="button" id="start-stop">Débuter</button>
+      </p>
+      <p id="minuteur">00:00</p>
+    </div>
+
+    <script>
+      let interval;
+      let duration;
+      let timer = document.getElementById("minuteur");
+      let startStopButton = document.getElementById("start-stop");
+      let minutesInput = document.getElementById("input-minutes");
+      let secondsInput = document.getElementById("input-seconds");
+
+      function convertTime(time) {
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+        return ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+      }
+
+      function updateTimer() {
+        timer.innerHTML = convertTime(duration);
+        if (duration === 0) {
+          clearInterval(interval);
+          alert("Temps écoulé");
+        }
+        duration--;
+      }
+
+      function startStopTimer() {
+        if (interval) {
+          clearInterval(interval);
+          interval = null;
+          startStopButton.innerHTML = "Débuter";
+        } else {
+          duration =
+            parseInt(minutesInput.value) * 60 + parseInt(secondsInput.value);
+          if (duration > 0) {
+            interval = setInterval(updateTimer, 1000);
+            startStopButton.innerHTML = "Arrêter";
+          }
+        }
+      }
+
+      startStopButton.addEventListener("click", startStopTimer);
+    </script>
+  </body>
+</html>
