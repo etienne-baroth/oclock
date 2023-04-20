@@ -1,12 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Réveil</title>
-</head>
-<body>
-    
-</body>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chivo+Mono&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div>
+      <p id="clock">00:00:00</p>
+      <ul id="alarmList"></ul>
+      <label for="alarmTime">Alarme</label>
+      <input type="time" id="alarmTime" />
+      <label for="alarmMessage">Nom</label>
+      <input type="text" id="alarmMessage"/>
+      <button class="button" onclick="setAlarm()">Nouvelle alarme</button>
+    </div>
+
+    <script>
+
+      function setAlarm() {
+        let alarmTimeInput = document.getElementById("alarmTime");
+        let alarmMessageInput = document.getElementById("alarmMessage");
+        let alarmTime = alarmTimeInput.value;
+        let alarmMessage = alarmMessageInput.value;
+        let newAlarm = { time: alarmTime, message: alarmMessage };
+        alarms.push(newAlarm);
+        alarmTimeInput.value = "";
+        alarmMessageInput.value = "";
+        updateAlarmList();
+      }
+
+      function updateAlarmList() {
+        let alarmList = document.getElementById("alarmList");
+        alarmList.innerHTML = "";
+        for (var i = 0; i < alarms.length; i++) {
+          let alarmTime = new Date();
+          let alarmTimeString = alarms[i].time;
+          let alarmHour = parseInt(alarmTimeString.slice(0, 2));
+          let alarmMinute = parseInt(alarmTimeString.slice(3));
+          alarmTime.setHours(alarmHour, alarmMinute, 0, 0);
+          let timeDiff = alarmTime.getTime() - Date.now();
+          let timeDiffSeconds = Math.floor(timeDiff / 1000);
+          let timeDiffMinutes = Math.floor(timeDiffSeconds / 60);
+          let timeDiffHours = Math.floor(timeDiffMinutes / 60);
+          let timeDiffDays = Math.floor(timeDiffHours / 24);
+          let timeDiffString = "";
+
+          if (timeDiffDays > 0) {
+            timeDiffString +=
+              timeDiffDays + " jour" + (timeDiffDays > 1 ? "s" : "") + " ";
+          }
+          if (timeDiffHours % 24 > 0) {
+            timeDiffString +=
+              (timeDiffHours % 24) +
+              " heure" +
+              (timeDiffHours % 24 > 1 ? "s" : "") +
+              " ";
+          }
+          if (timeDiffMinutes % 60 > 0) {
+            timeDiffString +=
+              (timeDiffMinutes % 60) +
+              " minute" +
+              (timeDiffMinutes % 60 > 1 ? "s" : "") +
+              " ";
+          }
+          if (timeDiffSeconds % 60 > 0) {
+            timeDiffString +=
+              (timeDiffSeconds % 60) +
+              " seconde" +
+              (timeDiffSeconds % 60 > 1 ? "s" : "") +
+              " ";
+          }
+
+          let alarmListItem = document.createElement("li");
+          alarmListItem.textContent =
+            alarms[i].message +
+            " - " +
+            (timeDiff < 0 ? "passée" : "dans " + timeDiffString);
+          alarmList.appendChild(alarmListItem);
+          if (timeDiff < 0) {
+            alarms.splice(i, 1);
+            // i--;
+            alert("Réveil activé!");
+          }
+        }
+      }
+
+      function updateClock() {
+        let date = new Date();
+        let hours = date.getUTCHours() + 1;
+        let minutes = date.getUTCMinutes();
+        let seconds = date.getUTCSeconds();
+        let timeString =
+          ("0" + hours).slice(-2) +
+          ":" +
+          ("0" + minutes).slice(-2) +
+          ":" +
+          ("0" + seconds).slice(-2);
+        clock.innerHTML = timeString;
+      }
+
+      let clock = document.getElementById("clock");
+      let interval = setInterval(updateClock, 1000);
+
+      let alarms = [];
+      setInterval(updateAlarmList, 1000);
+
+      updateClock();
+    </script>
+  </body>
 </html>
